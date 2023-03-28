@@ -1,0 +1,42 @@
+Write queries to following questions
+a.Create a new table persons with attribute person_id with constraints NOT NULL, PRIMARY KEY), Name( Constraints NOT NULL), Aadhar( NOT NULL, UNIQUE), age(Check>18)
+b.Create a table ‘Orders’ with attribute Order_id( NOT NULL, Primary Key) Order_no( NOT NULL), Person_ID(Foreign Key)
+c.Display the structure of the ‘persons’ table.
+d.Display the structure of the ‘order’ table.
+
+
+
+
+Answes:
+
+
+a. create table person(pid int primary key,name varchar(20) not null, Aadhar int unique not null, age int check(age>18));
+Query OK, 0 rows affected (1.57 sec)
+
+mysql> desc person;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| pid    | int         | NO   | PRI | NULL    |       |
+| name   | varchar(20) | NO   |     | NULL    |       |
+| Aadhar | int         | NO   | UNI | NULL    |       |
+| age    | int         | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+
+b.mysql> create table orders(oid int primary key,ono int not null,pid int, foreign key(pid) references person(pid));
+Query OK, 0 rows affected (0.74 sec)
+
+mysql> desc orders;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| oid   | int  | NO   | PRI | NULL    |       |
+| ono   | int  | NO   |     | NULL    |       |
+| pid   | int  | YES  | MUL | NULL    |       |
++-------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+c.

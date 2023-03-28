@@ -18,6 +18,8 @@ Answers:
 
 
    a. create database college;
+   
+   
    b. use college;
       Database changed
    c.
@@ -28,11 +30,15 @@ Query OK, 0 rows affected (0.96 sec)
 Query OK, 0 rows affected (0.55 sec)
 
 
-   d.mysql> select * from student;
-Empty set (0.00 sec)
+   d.mysql> show tables;
++-------------------+
+| Tables_in_student |
++-------------------+
+| course            |
+| student           |
++-------------------+
+2 rows in set (0.00 sec)
 
-mysql> select * from course;
-Empty set (0.00 sec)
  
    e. desc student;
 +---------+-------------+------+-----+---------+-------+

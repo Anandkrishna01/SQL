@@ -1,0 +1,100 @@
+Consider the database for an organization. Write queries to implement the following.
+  a.Create the database.
+  b.Select the current database.
+  c.Create the following tables.
+     Employee(emp_no,emp_name,dob,address,mobile_no,dept_no, salary)
+     Department(dept_no,dept_name,location)
+  d.List all the tables in the current database.
+  e.Display the structure of the ‘employee’ table.
+  f.Drop the column location from ‘department’ table.
+  g.Add a new column designation to the employee table.
+  h.Display the structure of the employee table.
+  
+  
+  Answers:
+  
+  a. create database organization;
+Query OK, 1 row affected (0.20 sec)
+
+
+b. mysql> use organization;
+Database changed
+
+
+c. 
+  create table Employee(eno int,ename varchar(20),dob date,address varchar(30),mob varchar(10),dept varchar(20),salary int);
+Query OK, 0 rows affected (0.56 sec)
+
+create table Department(dno int,dname varchar(20), loc varchar(30));
+Query OK, 0 rows affected (0.60 sec)
+
+d. show tables;
++------------------------+
+| Tables_in_organization |
++------------------------+
+| Department             |
+| Employee               |
++------------------------+
+2 rows in set (0.00 sec)
+
+
+e.mysql> desc Employee;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| eno     | int         | YES  |     | NULL    |       |
+| ename   | varchar(20) | YES  |     | NULL    |       |
+| dob     | date        | YES  |     | NULL    |       |
+| address | varchar(30) | YES  |     | NULL    |       |
+| mob     | varchar(10) | YES  |     | NULL    |       |
+| dept    | varchar(20) | YES  |     | NULL    |       |
+| salary  | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+
+mysql> desc Department;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| dno   | int         | YES  |     | NULL    |       |
+| dname | varchar(20) | YES  |     | NULL    |       |
+| loc   | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+
+f.mysql> alter table Department drop column loc;
+Query OK, 0 rows affected (0.40 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Department;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| dno   | int         | YES  |     | NULL    |       |
+| dname | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+
+g. mysql> alter table Employee add column designation varchar(20);
+Query OK, 0 rows affected (0.40 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+h.mysql> desc Employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| eno         | int         | YES  |     | NULL    |       |
+| ename       | varchar(20) | YES  |     | NULL    |       |
+| dob         | date        | YES  |     | NULL    |       |
+| address     | varchar(30) | YES  |     | NULL    |       |
+| mob         | varchar(10) | YES  |     | NULL    |       |
+| dept        | varchar(20) | YES  |     | NULL    |       |
+| salary      | int         | YES  |     | NULL    |       |
+| designation | varchar(20) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
