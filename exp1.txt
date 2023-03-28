@@ -1,0 +1,121 @@
+1  Consider a database for a college, write queries to implement the following.
+    a. Create a database
+    b. Select the current database
+    c. Create the following tables.
+          i. Student[ rollno,name ,date,address,phone_no,blood_group]
+          ii. Course [course_id, course_name, course_duration]
+    d. List all the tables in the current database.
+    e. Display the structure of the student table.
+    f. Drop the column’blood_group” from the student table.
+    g. Add a new column Aadhar_no to the student table.
+    h. Change the datatype of phone_no from varchar to int.
+    i. Drop all tables.
+    j. Delete the database.
+    
+    
+    
+Answers:
+
+
+   a. create database college;
+   b. use college;
+      Database changed
+   c.
+      i. create table student(rollno int ,name varchar(20),date date,address varchar(20),phone     int,blood varchar(5));
+Query OK, 0 rows affected (0.96 sec)
+ 
+     ii. create table course(cid int,cname varchar(20),cduration varchar(20));
+Query OK, 0 rows affected (0.55 sec)
+
+
+   d.mysql> select * from student;
+Empty set (0.00 sec)
+
+mysql> select * from course;
+Empty set (0.00 sec)
+ 
+   e. desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| rollno  | int         | YES  |     | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| date    | date        | YES  |     | NULL    |       |
+| address | varchar(20) | YES  |     | NULL    |       |
+| phone   | varchar(10) | YES  |     | NULL    |       |
+| aadhar  | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+     desc course;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| cid       | int         | YES  |     | NULL    |       |
+| cname     | varchar(20) | YES  |     | NULL    |       |
+| cduration | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+
+f.  mysql> alter table student drop column blood;
+Query OK, 0 rows affected (0.43 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| rollno  | int         | YES  |     | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| date    | date        | YES  |     | NULL    |       |
+| address | varchar(20) | YES  |     | NULL    |       |
+| phone   | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+
+
+g.alter table student add column aadhar int;
+Query OK, 0 rows affected (0.37 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| rollno  | int         | YES  |     | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| date    | date        | YES  |     | NULL    |       |
+| address | varchar(20) | YES  |     | NULL    |       |
+| phone   | int         | YES  |     | NULL    |       |
+| aadhar  | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+
+h.mysql> alter table student modify column phone int;
+Query OK, 0 rows affected (1.69 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| rollno  | int         | YES  |     | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| date    | date        | YES  |     | NULL    |       |
+| address | varchar(20) | YES  |     | NULL    |       |
+| phone   | int         | YES  |     | NULL    |       |
+| aadhar  | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+i.mysql> drop table student,course;
+Query OK, 0 rows affected (0.60 sec)
+
+j.drop database gect;;
+Query OK, 0 rows affected (0.19 sec)
+
+
+
