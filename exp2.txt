@@ -65,7 +65,13 @@ mysql> desc Department;
 
 
 
-f.mysql> alter table Department drop column loc;
+f.
+
+//The ALTER TABLE command in SQL lets you delete, add or modify columns present in your database table
+
+
+
+mysql> alter table Department drop column loc;
 Query OK, 0 rows affected (0.40 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
