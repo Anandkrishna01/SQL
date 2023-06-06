@@ -1,0 +1,80 @@
+Employee(emp-id,f-name,l-name,email,phone-no,hire-date, job_id,salary, dept-id)
+Department( Dept-id, dept-name,Manager-id, Location-id);
+Write queries to implement the following
+
+
+a.Find those employees who don't work in those departments where manager id are in the range 100-200(begin and end values included.)(return all the fields of the employee table).
+b.From the following, find those employees who earn more than the average salary and work in the department with any employee whose f-name contains a char
+
+
+
+
+mysql> select * from Emp;
++-------+-------+-------+----------------+------------+------------+-------+--------+--------+
+| empid | fname | lname | email          | ph         | hiredate   | jobid | salary | deptid |
++-------+-------+-------+----------------+------------+------------+-------+--------+--------+
+|  1001 | Anu   | Black | anu@gmail.com  | 9876234156 | 2020-10-12 |  2001 |    500 |   3001 |
+|  1002 | Manu  | Black | manu@gmail.com | 9876234157 | 2020-10-11 |  2002 |   5000 |   3002 |
+|  1002 | sanu  | White | sanu@gmail.com | 9876234158 | 2020-10-10 |  2003 |     50 |   3003 |
++-------+-------+-------+----------------+------------+------------+-------+--------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from Dept;
++--------+------------+-----------+------------+
+| deptid | deptname   | managerid | locationid |
++--------+------------+-----------+------------+
+|   3001 | Production |      5001 |       6001 |
+|   3002 | Export     |      5002 |       6002 |
+|   3003 | Import     |      5003 |       6003 |
++--------+------------+-----------+------------+
+3 rows in set (0.00 sec)
+
+
+
+
+a.
+
+select * from Emp left join Dept on Emp.deptid=Dept.deptid where managerid not between 5001 and 5002;
++-------+-------+-------+----------------+------------+------------+-------+--------+--------+--------+----------+-----------+------------+
+| empid | fname | lname | email          | ph         | hiredate   | jobid | salary | deptid | deptid | deptname | managerid | locationid |
++-------+-------+-------+----------------+------------+------------+-------+--------+--------+--------+----------+-----------+------------+
+|  1002 | sanu  | White | sanu@gmail.com | 9876234158 | 2020-10-10 |  2003 |     50 |   3003 |   3003 | Import   |      5003 |       6003 |
++-------+-------+-------+----------------+------------+------------+-------+--------+--------+--------+----------+-----------+------------+
+1 row in set (0.00 sec)
+
+
+
+
+
+b.
+
+mysql> select empid,fname,salary from Emp where salary>(select avg(salary) from Emp) and fname like '%n%';
++-------+-------+--------+
+| empid | fname | salary |
++-------+-------+--------+
+|  1002 | Manu  |   5000 |
+|  1005 | sinu  |   8000 |
++-------+-------+--------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

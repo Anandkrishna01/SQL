@@ -1,0 +1,105 @@
+Write queries to implement the following operations.
+category(ISBN,booktitle,author_name,category,price,pid)
+publisher(pid,pname,country)
+
+  a. Retrieve the title and publisher name of all the books in
+     table catalog.
+  b. Display author,country and price of all books with India
+      based authors and price less than 500 
+
+   c. Retreive the title, category, price, pname of all books
+    even if they have no publisher.
+    
+    d. Display the list of all publisher even if they are not in
+        category table.
+        
+        
+ Answer
+ 
+ 
+mysql> select * from Book;
++--------+-------------------------------+-------------------+-------------+-------+-----+
+| isbn   | Title                         | Author            | Ctagory     | Price | pid |
++--------+-------------------------------+-------------------+-------------+-------+-----+
+| 100001 | Data Structures And Algorithm | Adarsh            | Education   |  2000 |   1 |
+| 100002 | Programming using C           | Abin              | Programming |  3000 |   2 |
+| 100003 | Java Programming              | Anand             | Programming |  4000 |   3 |
+| 100004 | Game of Thrones               | George R R Martin | Fiction     | 50000 |   4 |
+| 100005 | Harry Potter                  | J K Rowling       | Fiction     |  2000 |   5 |
+| 100006 | Vampire Diaries               | Stefen Salvator   | Horror      |   500 |   6 |
+| 100007 | Vampire Diaries               | Adarsh            | Horror      |  5000 |   7 |
+| 100008 | Vampire Diaries               | Abin              | Horror      |    50 |   8 |
++--------+-------------------------------+-------------------+-------------+-------+-----+
+8 rows in set (0.00 sec)
+
+
+mysql> select * from publisher;
++------+-------+---------+
+| pid  | pname | country |
++------+-------+---------+
+|    1 | manu  | india   |
+|    2 | sanu  | india   |
+|    6 | anu   | india   |
+|    7 | linu  | india   |
++------+-------+---------+
+4 rows in set (0.00 sec)
+
+
+a.   mysql> select Title,pname from Book natural join publisher;
++-------------------------------+-------+
+| Title                         | pname |
++-------------------------------+-------+
+| Data Structures And Algorithm | manu  |
+| Programming using C           | sanu  |
+| Vampire Diaries               | anu   |
+| Vampire Diaries               | linu  |
++-------------------------------+-------+
+4 rows in set (0.00 sec)
+
+
+
+b.  
+mysql>  select author,country,price  from Book natural join publisher where price < 4000 and country="india";
++-----------------+---------+-------+
+| author          | country | price |
++-----------------+---------+-------+
+| Adarsh          | india   |  2000 |
+| Abin            | india   |  3000 |
+| Stefen Salvator | india   |   500 |
++-----------------+---------+-------+
+3 rows in set (0.00 sec)
+
+
+ c. 
+ 
+ mysql> select Title ,Ctagory,price,pname from Book left join  publisher on Book.pid=publisher.pid;
++-------------------------------+-------------+-------+-------+
+| Title                         | Ctagory     | price | pname |
++-------------------------------+-------------+-------+-------+
+| Data Structures And Algorithm | Education   |  2000 | manu  |
+| Programming using C           | Programming |  3000 | sanu  |
+| Java Programming              | Programming |  4000 | NULL  |
+| Game of Thrones               | Fiction     | 50000 | NULL  |
+| Harry Potter                  | Fiction     |  2000 | NULL  |
+| Vampire Diaries               | Horror      |   500 | anu   |
+| Vampire Diaries               | Horror      |  5000 | linu  |
+| Vampire Diaries               | Horror      |    50 | NULL  |
++-------------------------------+-------------+-------+-------+
+8 rows in set (0.00 sec)
+
+d.
+
+mysql> select pname from publisher left join  Book on Book.pid=publisher.pid;
++-------+
+| pname |
++-------+
+| manu  |
+| sanu  |
+| anu   |
+| linu  |
++-------+
+
+ 
+ 
+
+

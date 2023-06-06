@@ -1,0 +1,81 @@
+8.
+a. Create a view BOOK1 containing details of book which
+belong to textbooks and novel category.
+b. Retrieve the details in Book1.
+c. Create a view Book2 with selected attributes
+isbn,title,category and price from table books.
+d. Retrieve all books with price greater than 100 from
+book2.
+
+
+
+
+a. 
+
+mysql> create view  BOOK1 as select * from Book where Ctagory="Programming" or Ctagory="Fiction";
+Query OK, 0 rows affected (0.13 sec)
+
+
+mysql> select * from BOOK1;
++--------+---------------------+-------------------+-------------+-------+-----+
+| isbn   | Title               | Author            | Ctagory     | Price | pid |
++--------+---------------------+-------------------+-------------+-------+-----+
+| 100002 | Programming using C | Abin              | Programming |  3000 |   2 |
+| 100003 | Java Programming    | Anand             | Programming |  4000 |   3 |
+| 100004 | Game of Thrones     | George R R Martin | Fiction     | 50000 |   4 |
+| 100005 | Harry Potter        | J K Rowling       | Fiction     |  2000 |   5 |
++--------+---------------------+-------------------+-------------+-------+-----+
+4 rows in set (0.00 sec)
+
+
+b.
+
+mysql> select * from Book;
++--------+-------------------------------+-------------------+-------------+-------+-----+
+| isbn   | Title                         | Author            | Ctagory     | Price | pid |
++--------+-------------------------------+-------------------+-------------+-------+-----+
+| 100001 | Data Structures And Algorithm | Adarsh            | Education   |  2000 |   1 |
+| 100002 | Programming using C           | Abin              | Programming |  3000 |   2 |
+| 100003 | Java Programming              | Anand             | Programming |  4000 |   3 |
+| 100004 | Game of Thrones               | George R R Martin | Fiction     | 50000 |   4 |
+| 100005 | Harry Potter                  | J K Rowling       | Fiction     |  2000 |   5 |
+| 100006 | Vampire Diaries               | Stefen Salvator   | Horror      |   500 |   6 |
+| 100007 | Vampire Diaries               | Adarsh            | Horror      |  5000 |   7 |
+| 100008 | Vampire Diaries               | Abin              | Horror      |    50 |   8 |
++--------+-------------------------------+-------------------+-------------+-------+-----+
+8 rows in set (0.00 sec)
+
+
+c.
+mysql> create view BOOK2 as select isbn,title,author,Ctagory,price from Book;
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> select * from BOOK2;
++--------+-------------------------------+-------------------+-------------+-------+
+| isbn   | title                         | author            | Ctagory     | price |
++--------+-------------------------------+-------------------+-------------+-------+
+| 100001 | Data Structures And Algorithm | Adarsh            | Education   |  2000 |
+| 100002 | Programming using C           | Abin              | Programming |  3000 |
+| 100003 | Java Programming              | Anand             | Programming |  4000 |
+| 100004 | Game of Thrones               | George R R Martin | Fiction     | 50000 |
+| 100005 | Harry Potter                  | J K Rowling       | Fiction     |  2000 |
+| 100006 | Vampire Diaries               | Stefen Salvator   | Horror      |   500 |
+| 100007 | Vampire Diaries               | Adarsh            | Horror      |  5000 |
+| 100008 | Vampire Diaries               | Abin              | Horror      |    50 |
++--------+-------------------------------+-------------------+-------------+-------+
+8 rows in set (0.00 sec)
+
+
+
+d.
+
+
+mysql> select * from BOOK2 where price >4000;
++--------+-----------------+-------------------+---------+-------+
+| isbn   | title           | author            | Ctagory | price |
++--------+-----------------+-------------------+---------+-------+
+| 100004 | Game of Thrones | George R R Martin | Fiction | 50000 |
+| 100007 | Vampire Diaries | Adarsh            | Horror  |  5000 |
++--------+-----------------+-------------------+---------+-------+
+2 rows in set (0.00 sec)
+

@@ -1,0 +1,138 @@
+Write queries to implement the following
+
+
+a. Display the emp_no, name and salaries of employees whose salary is greater than the average salary of the organization.
+b. Display the details of employees whose salary is equal to the minimum salary of the organization.
+c. Display all the employees whose designation is same as that of Arun.
+d. Display the emp_no, name of employees who earns more than any employee in the dept no 1
+e. Display the emp_no,ename, department that the department is same in both the employee and department.
+
+
+
+mysql> select * from Employee;
++------+------------+------------+---------------------------+------------+--------+--------+----------------------+------+
+| eno  | ename      | dob        | address                   | mob        | dept   | salary | designation          | dno  |
++------+------------+------------+---------------------------+------------+--------+--------+----------------------+------+
+| 1001 | Abin Binoy | 2000-01-12 | Thiruvananthapuram Kerala | 7895462130 | MCA    |  75000 | Software Developer   | 2001 |
+| 1002 | Aiswarya   | 2000-11-20 | Thrissur Kerala           | 8957891230 | MCA    |  75000 | Software Developer   | 2001 |
+| 1003 | Adarsh     | 2000-10-05 | Vadakara Kerala           | 1234567890 | B.Tech |  85000 | Software Engineer    | 2002 |
+| 1004 | AKhil      | 2001-06-06 | Alappuzha Kerala          | 1234321456 | B.Tech |  65000 | Jr Flutter Developer | 2002 |
++------+------------+------------+---------------------------+------------+--------+--------+----------------------+------+
+4 rows in set (0.01 sec)
+
+mysql> select * from Department;
++------+--------+
+| dno  | dname  |
++------+--------+
+| 2001 | MCA    |
+| 2002 | B.Tech |
+| 2003 | BA     |
+| 2004 | BSc    |
+| 2005 | B.Arch |
++------+--------+
+5 rows in set (0.00 sec)
+
+
+
+
+a.
+
+
+mysql> select eno,ename,salary from Employee where salary>(select avg(salary) from Employee);
++------+--------+--------+
+| eno  | ename  | salary |
++------+--------+--------+
+| 1003 | Adarsh |  85000 |
++------+--------+--------+
+1 row in set (0.04 sec)
+
+b
+
+mysql> select * from Employee where salary = (select min(salary) from Employee); 
++------+-------+------------+------------------+------------+--------+--------+----------------------+------+
+| eno  | ename | dob        | address          | mob        | dept   | salary | designation          | dno  |
++------+-------+------------+------------------+------------+--------+--------+----------------------+------+
+| 1004 | AKhil | 2001-06-06 | Alappuzha Kerala | 1234321456 | B.Tech |  65000 | Jr Flutter Developer | 2002 |
++------+-------+------------+------------------+------------+--------+--------+----------------------+------+
+1 row in set (0.00 sec)
+
+
+c.
+
+
+mysql> select * from Employee where designation = (select designation from Employee where ename='Aiswarya');
++------+------------+------------+---------------------------+------------+------+--------+--------------------+------+
+| eno  | ename      | dob        | address                   | mob        | dept | salary | designation        | dno  |
++------+------------+------------+---------------------------+------------+------+--------+--------------------+------+
+| 1001 | Abin Binoy | 2000-01-12 | Thiruvananthapuram Kerala | 7895462130 | MCA  |  75000 | Software Developer | 2001 |
+| 1002 | Aiswarya   | 2000-11-20 | Thrissur Kerala           | 8957891230 | MCA  |  75000 | Software Developer | 2001 |
++------+------------+------------+---------------------------+------------+------+--------+--------------------+------+
+
+
+
+
+d.
+
+
+mysql> select eno,ename from Employee where salary > (select salary from Employee where eno=1001);
++------+--------+
+| eno  | ename  |
++------+--------+
+| 1003 | Adarsh |
++------+--------+
+1 row in set (0.00 sec)
+
+
+e.
+
+mysql> select eno, ename ,dept from Employee natural join Department where Employee.dno=Department.dno;
++------+------------+--------+
+| eno  | ename      | dept   |
++------+------------+--------+
+| 1001 | Abin Binoy | MCA    |
+| 1002 | Aiswarya   | MCA    |
+| 1003 | Adarsh     | B.Tech |
+| 1004 | AKhil      | B.Tech |
++------+------------+--------+
+4 rows in set (0.00 sec)
+
+
+f.
+
+mysql> select * from Employee right join Department on Employee.dno=Department.dno;
++------+------------+------------+---------------------------+------------+--------+--------+----------------------+------+------+--------+
+| eno  | ename      | dob        | address                   | mob        | dept   | salary | designation          | dno  | dno  | dname  |
++------+------------+------------+---------------------------+------------+--------+--------+----------------------+------+------+--------+
+| 1002 | Aiswarya   | 2000-11-20 | Thrissur Kerala           | 8957891230 | MCA    |  75000 | Software Developer   | 2001 | 2001 | MCA    |
+| 1001 | Abin Binoy | 2000-01-12 | Thiruvananthapuram Kerala | 7895462130 | MCA    |  75000 | Software Developer   | 2001 | 2001 | MCA    |
+| 1004 | AKhil      | 2001-06-06 | Alappuzha Kerala          | 1234321456 | B.Tech |  65000 | Jr Flutter Developer | 2002 | 2002 | B.Tech |
+| 1003 | Adarsh     | 2000-10-05 | Vadakara Kerala           | 1234567890 | B.Tech |  85000 | Software Engineer    | 2002 | 2002 | B.Tech |
+| NULL | NULL       | NULL       | NULL                      | NULL       | NULL   |   NULL | NULL                 | NULL | 2003 | BA     |
+| NULL | NULL       | NULL       | NULL                      | NULL       | NULL   |   NULL | NULL                 | NULL | 2004 | BSc    |
+| NULL | NULL       | NULL       | NULL                      | NULL       | NULL   |   NULL | NULL                 | NULL | 2005 | B.Arch |
++------+------------+------------+---------------------------+------------+--------+--------+----------------------+------+------+--------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+mysql> select eno,ename,salary from Employee where salary>(select avg(salary) from Employee);
+mysql> select * from Employee where salary = (select min(salary) from Employee);
+mysql> select * from Employee where designation = (select designation from Employee where ename='Aiswarya');
+mysql> select eno,ename from Employee where salary > (select salary from Employee where eno=1001);
+mysql> select eno, ename ,dept from Employee natural join Department where Employee.dno=Department.dno;
+mysql> select * from Employee right join Department on Employee.dno=Department.dno;
+
+
+
+
+
+
+
+
+
+

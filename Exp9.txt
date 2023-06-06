@@ -1,0 +1,87 @@
+9. Write queries to implement the following operations:
+Book(isbn,title,author,category,price,year)
+publisher(pid,pname,country)
+a. Get the details of all books whose price is greater than
+average price of books.
+b. Retrieve the isbn,title and category of books published
+by the publisher in India.
+c. Retrieve the details of books with price equal to any of
+the books belonging to novel category.
+d. Retrieve the details of books until price> price of all
+books belong to novel category.
+e. Retrieve the book details of publisher having at least
+one book published.
+f. Retrieve the details of publisher having not publishing
+any books.
+
+
+
+a.
+
+
+mysql> select * from Book where price > (select avg(price) from Book);;
++--------+-----------------+-------------------+---------+-------+-----+
+| isbn   | Title           | Author            | Ctagory | Price | pid |
++--------+-----------------+-------------------+---------+-------+-----+
+| 100004 | Game of Thrones | George R R Martin | Fiction | 50000 |   4 |
++--------+-----------------+-------------------+---------+-------+-----+
+1 row in set (0.00 sec)
+
+
+b. 
+mysql> select isbn,Title,Ctagory from Book natural join publisher where country="india";
++--------+-------------------------------+-------------+
+| isbn   | Title                         | Ctagory     |
++--------+-------------------------------+-------------+
+| 100001 | Data Structures And Algorithm | Education   |
+| 100002 | Programming using C           | Programming |
+| 100006 | Vampire Diaries               | Horror      |
+| 100007 | Vampire Diaries               | Horror      |
++--------+-------------------------------+-------------+
+4 rows in set (0.00 sec)
+
+
+c.
+
+
+mysql> select * from Book where price=any(select price from Book where Ctagory="Fiction");
++--------+-------------------------------+-------------------+-----------+-------+-----+
+| isbn   | Title                         | Author            | Ctagory   | Price | pid |
++--------+-------------------------------+-------------------+-----------+-------+-----+
+| 100001 | Data Structures And Algorithm | Adarsh            | Education |  2000 |   1 |
+| 100004 | Game of Thrones               | George R R Martin | Fiction   | 50000 |   4 |
+| 100005 | Harry Potter                  | J K Rowling       | Fiction   |  2000 |   5 |
++--------+-------------------------------+-------------------+-----------+-------+-----+
+3 rows in set (0.00 sec)
+
+
+d.
+
+mysql> select * from Book where price>(select sum(price) from Book where Ctagory="Programming");
++--------+-----------------+-------------------+---------+-------+-----+
+| isbn   | Title           | Author            | Ctagory | Price | pid |
++--------+-----------------+-------------------+---------+-------+-----+
+| 100004 | Game of Thrones | George R R Martin | Fiction | 50000 |   4 |
++--------+-----------------+-------------------+---------+-------+-----+
+1 row in set (0.01 sec)
+
+e.
+
+
+mysql> select * from publisher left join Book on Book.pid=publisher.pid where title is not null;
++------+-------+---------+--------+-------------------------------+-----------------+-------------+-------+------+
+| pid  | pname | country | isbn   | Title                         | Author          | Ctagory     | Price | pid  |
++------+-------+---------+--------+-------------------------------+-----------------+-------------+-------+------+
+|    1 | manu  | india   | 100001 | Data Structures And Algorithm | Adarsh          | Education   |  2000 |    1 |
+|    2 | sanu  | india   | 100002 | Programming using C           | Abin            | Programming |  3000 |    2 |
+|    6 | anu   | india   | 100006 | Vampire Diaries               | Stefen Salvator | Horror      |   500 |    6 |
+|    7 | linu  | india   | 100007 | Vampire Diaries               | Adarsh          | Horror      |  5000 |    7 |
++------+-------+---------+--------+-------------------------------+-----------------+-------------+-------+------+
+4 rows in set (0.00 sec)
+
+
+f.
+
+mysql> select * from publisher left join Book on Book.pid=publisher.pid where title is  null;
+Empty set (0.00 sec)
+
