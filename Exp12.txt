@@ -1,0 +1,28 @@
+mysql> delimiter $
+mysql> create procedure Book()
+    -> begin
+    -> select * from Book;
+    -> end
+    -> $
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> delimiter ;
+
+
+mysql> call Book();
++--------+-------------------------------+-------------------+-------------+-------+-----+
+| isbn   | Title                         | Author            | Ctagory     | Price | pid |
++--------+-------------------------------+-------------------+-------------+-------+-----+
+| 100001 | Data Structures And Algorithm | Adarsh            | Education   |  2000 |   1 |
+| 100002 | Programming using C           | Abin              | Programming |  3000 |   2 |
+| 100003 | Java Programming              | Anand             | Programming |  4000 |   3 |
+| 100004 | Game of Thrones               | George R R Martin | Fiction     | 50000 |   4 |
+| 100005 | Harry Potter                  | J K Rowling       | Fiction     |  2000 |   5 |
+| 100006 | Vampire Diaries               | Stefen Salvator   | Horror      |   500 |   6 |
+| 100007 | Vampire Diaries               | Adarsh            | Horror      |  5000 |   7 |
+| 100008 | Vampire Diaries               | Abin              | Horror      |    50 |   8 |
++--------+-------------------------------+-------------------+-------------+-------+-----+
+8 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+

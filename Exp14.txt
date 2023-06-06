@@ -1,0 +1,23 @@
+mysql> delimiter $
+mysql> create procedure Book2(in abc varchar(20))
+    -> begin
+    -> select * from Book where Ctagory=abc;
+    -> end
+    -> $
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> delimiter ;
+
+
+mysql> call Book2("Horror");
++--------+-----------------+-----------------+---------+-------+-----+
+| isbn   | Title           | Author          | Ctagory | Price | pid |
++--------+-----------------+-----------------+---------+-------+-----+
+| 100006 | Vampire Diaries | Stefen Salvator | Horror  |   500 |   6 |
+| 100007 | Vampire Diaries | Adarsh          | Horror  |  5000 |   7 |
+| 100008 | Vampire Diaries | Abin            | Horror  |    50 |   8 |
++--------+-----------------+-----------------+---------+-------+-----+
+3 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
