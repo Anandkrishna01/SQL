@@ -1,0 +1,57 @@
+
+mysql> create table student(reg_no int,name varchar(20),markA int,markB int);
+Query OK, 0 rows affected (1.10 sec)
+
+mysql> insert into student values(101,"Anand",88,90),(102,"Ashly",92,95),(103,"Adarsh",91,99),(104,"Swathy",93,97);
+Query OK, 4 rows affected (0.10 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mysql> delimiter &
+mysql> create procedure Display(in x int)  
+    -> begin
+    ->   declare total int; 
+    ->   declare status varchar(20);
+    ->   declare per float; 
+    ->   select markA + markB into total from student where reg_no = x;
+    ->   set per = (total/200)*100;
+    ->   if per >= 40 then
+    ->     set status = "passed"; 
+    ->   else 
+    ->     set status = "failed"; 
+    ->   end if; 
+    ->   select reg_no, name, markA, markB, status from student where reg_no = x;
+    -> end &
+Query OK, 0 rows affected (0.16 sec)
+
+mysql> delimiter ;
+mysql> call Display(101);
++--------+-------+-------+-------+--------+
+| reg_no | name  | markA | markB | status |
++--------+-------+-------+-------+--------+
+|    101 | Anand |    88 |    90 | passed |
++--------+-------+-------+-------+--------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+

@@ -1,0 +1,52 @@
+mysql> create database MCA;
+Query OK, 1 row affected (0.13 sec)
+
+mysql> use MCA
+Database changed
+mysql> create table student(reg_no int,name varchar(20),mark1 int,mark2 int);
+Query OK, 0 rows affected (0.52 sec)
+
+mysql> insert into student values(101,"Anand",88,90),(102,"Ashly",92,95),(103,"Adarsh",91,99),(104,"Swathy",93,97);
+Query OK, 4 rows affected (0.15 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from student;
++--------+--------+-------+-------+
+| reg_no | name   | mark1 | mark2 |
++--------+--------+-------+-------+
+|    101 | Anand  |    88 |    90 |
+|    102 | Ashly  |    92 |    95 |
+|    103 | Adarsh |    91 |    99 |
+|    104 | Swathy |    93 |    97 |
++--------+--------+-------+-------+
+4 rows in set (0.00 sec)
+
+
+Answer----------------------------------------------->
+
+
+
+
+
+mysql> delimiter &
+mysql> create procedure Delete_student()
+    -> begin
+    -> delete from student where reg_no=103;
+    -> end &
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> delimiter ;
+mysql> call Delete_student();
+Query OK, 1 row affected (0.10 sec)
+
+mysql> select * from student;
++--------+--------+-------+-------+
+| reg_no | name   | mark1 | mark2 |
++--------+--------+-------+-------+
+|    101 | Anand  |    88 |    90 |
+|    102 | Ashly  |    92 |    95 |
+|    104 | Swathy |    93 |    97 |
++--------+--------+-------+-------+
+3 rows in set (0.00 sec)
+
+
