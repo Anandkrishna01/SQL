@@ -1,0 +1,45 @@
+ Trigger- After Insert
+Write a trigger to insert the values into the customer table and 
+display the particulars of each item with its the total cost in a seperate table.
+Assume Customer relation having attributes id,item,cost ,quantity and 
+the new table contains attributes id,item and total cost.
+
+
+Answers
+
+
+
+mysql> create table customer(id int , item varchar(20),cost int, quantity int);
+Query OK, 0 rows affected (0.52 sec)
+
+mysql> create table customer2(id int , item varchar(20),totalcost int);
+Query OK, 0 rows affected (0.60 sec)
+
+
+
+delimiter //
+create trigger trr_ins
+after insert on customer 
+for each row 
+begin 
+insert into customer2 values(new.id,new.item,new.cost*new.quantity); 
+end //
+
+mysql> delimiter ;
+mysql> select * from customer;
++------+------+------+----------+
+| id   | item | cost | quantity |
++------+------+------+----------+
+|  101 | pen  |    5 |       10 |
++------+------+------+----------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer2;
++------+------+-----------+
+| id   | item | totalcost |
++------+------+-----------+
+|  101 | pen  |        50 |
++------+------+-----------+
+1 row in set (0.00 sec)
+
+mysql> 

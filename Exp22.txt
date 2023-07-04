@@ -1,0 +1,45 @@
+19. Trigger-Before delete
+Design a trigger to record logout time and 
+other details of the student in a seperate table ,
+when the student is deleted from the student table. 
+Assume Student table contains attributes student id,name,semester,login time 
+and new table contains attributes student id,name,semester ,logout time
+
+
+Answers
+
+
+mysql> create table Student(id int, name varchar(20), sem int);
+Query OK, 0 rows affected (0.96 sec)
+
+mysql> insert into Student values(101,"Abin",2),(102,"Anand",2);
+Query OK, 2 rows affected (0.11 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+
+delimiter //
+create trigger trr_del
+after delete on Student 
+for each row 
+begin 
+insert into Student2 values(old.id,old.name,old.sem,current_time()); 
+end //
+
+
+mysql> select * from Student;
++------+------+------+
+| id   | name | sem  |
++------+------+------+
+|  101 | Abin |    2 |
++------+------+------+
+1 row in set (0.00 sec)
+
+mysql> select * from Student2;
++------+-------+------+----------+
+| id   | name  | sem  | logout   |
++------+-------+------+----------+
+|  102 | Anand |    2 | 16:00:25 |
++------+-------+------+----------+
+1 row in set (0.00 sec)
+
+mysql> 

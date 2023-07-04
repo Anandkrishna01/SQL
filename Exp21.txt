@@ -1,0 +1,56 @@
+Trigger-After update
+Write a trigger to insert the existing values of salary table
+ into a new table ,when the salary of an employee is updated. 
+ Assume Employee contains attibutes employee id, employee name,
+  salary and new table contains attributes employee number,
+  employee name,old salary, new salary
+
+Answers
+
+
+
+mysql> create table Employee(eid int, ename varchar(20),sal int);
+Query OK, 0 rows affected (0.47 sec)
+
+mysql> create table Employee2(eid int, ename varchar(20),oldsal int,newsal int);
+Query OK, 0 rows affected (1.02 sec)
+
+
+
+delimiter //
+create trigger trr_up
+after update on Employee 
+for each row 
+begin 
+insert into Employee2 values(old.eid,old.ename,old.sal,new.sal); 
+end //
+
+
+mysql> select * from Employee;
++------+-------+------+
+| eid  | ename | sal  |
++------+-------+------+
+|  101 | Abin  | 5000 |
++------+-------+------+
+1 row in set (0.00 sec)
+
+mysql> update Employee set sal=10000 where eid=101;
+Query OK, 1 row affected (0.08 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+mysql> select * from Employee;
++------+-------+-------+
+| eid  | ename | sal   |
++------+-------+-------+
+|  101 | Abin  | 10000 |
++------+-------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from Employee2;
++------+-------+--------+--------+
+| eid  | ename | oldsal | newsal |
++------+-------+--------+--------+
+|  101 | Abin  |   5000 |  10000 |
++------+-------+--------+--------+
+1 row in set (0.00 sec)
