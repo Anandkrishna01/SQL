@@ -1,0 +1,117 @@
+13. Stored Procedure - 7
+Procedure to perform Read, Update and delete operations
+ on a table according to user choice.
+
+
+
+
+create table name(rollno int, name varchar(20)) ;
+insert into name values (102,"Anand");
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE Operation(IN operation CHAR(1),  IN record_id INT, IN new_value1 VARCHAR(50))
+BEGIN
+    IF operation = 'R' THEN
+        
+        SELECT * FROM name WHERE rollno = record_id;
+    ELSEIF operation = 'U' THEN
+        
+        UPDATE name SET name = new_value1 WHERE rollno = record_id;
+        SELECT 'Record updated successfully.' AS message;
+    ELSEIF operation = 'D' THEN
+       
+        DELETE FROM name WHERE id = record_id;
+        SELECT 'Record deleted successfully.' AS message;
+	elseif operation = 'I' THEN
+        Insert into name values(record_id,new_value1);
+        SELECT 'Record inserted successfully.' AS message;
+    ELSE
+        SELECT 'Invalid operation.' AS message;
+    END IF;
+END //
+
+DELIMITER ;
+
+//Insert 
+
+mysql> call Operation("I",103,"Aiswarya");
++-------------------------------+
+| message                       |
++-------------------------------+
+| Record inserted successfully. |
++-------------------------------+
+1 row in set (0.08 sec)
+
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> select * from name;
++--------+----------+
+| rollno | name     |
++--------+----------+
+|    101 | Abin     |
+|    102 | Adarsh   |
+|    103 | Aiswarya |
++--------+----------+
+3 rows in set (0.00 sec)
+
+
+//update 
+
+mysql> call Operation("U",103,"Akhil");
++------------------------------+
+| message                      |
++------------------------------+
+| Record updated successfully. |
++------------------------------+
+1 row in set (0.14 sec)
+
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> select * from name;
++--------+--------+
+| rollno | name   |
++--------+--------+
+|    101 | Abin   |
+|    102 | Adarsh |
+|    103 | Akhil  |
++--------+--------+
+3 rows in set (0.00 sec)
+
+
+// delete
+
+mysql> call Operation("D",103,"");
++------------------------------+
+| message                      |
++------------------------------+
+| Record deleted successfully. |
++------------------------------+
+1 row in set (0.14 sec)
+
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> select * from name;
++--------+--------+
+| rollno | name   |
++--------+--------+
+|    101 | Abin   |
+|    102 | Adarsh |
++--------+--------+
+2 rows in set (0.00 sec)
+
+//Read 
+
+mysql> call Operation("R",101,"");
++--------+------+
+| rollno | name |
++--------+------+
+|    101 | Abin |
++--------+------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+

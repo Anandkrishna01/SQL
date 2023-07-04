@@ -1,0 +1,79 @@
+13. Functions (use 3 user defined functions)
+Implement a stored procedure to compute areas of rectangle, circle and 
+square by calling 3 different functions inside it.
+
+
+
+Rectangle
+
+
+delimiter &
+ create function R_Area(length int ,breadth int)
+    -> returns double 
+    -> deterministic 
+    -> begin 
+    -> declare area int;
+    -> set area = length * breadth;
+    -> return area;
+    -> end &
+
+mysql> delimiter ;
+
+mysql> select R_Area(10,2);
++--------------+
+| R_Area(10,2) |
++--------------+
+|           20 |
++--------------+
+1 row in set (0.00 sec)
+
+
+
+square
+
+
+
+mysql> delimiter &
+mysql> create function S_area(a int)
+    -> returns int
+    -> deterministic 
+    -> begin
+    -> return a*a;
+    -> end &
+Query OK, 0 rows affected (0.16 sec)
+
+mysql> delimiter ;
+mysql> select S_Area(10);
++------------+
+| S_Area(10) |
++------------+
+|        100 |
++------------+
+1 row in set (0.00 sec)
+
+
+
+circle
+
+
+
+mysql> delimiter &
+mysql> create function C_area(r int)
+    -> returns double 
+    -> deterministic 
+    -> begin
+    -> return 3.14*r*r;
+    -> end &
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> delimiter ;
+mysql> select C_area(10);
++------------+
+| C_area(10) |
++------------+
+|        314 |
++------------+
+1 row in set (0.00 sec)
+
+
+

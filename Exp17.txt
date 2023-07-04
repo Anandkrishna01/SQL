@@ -1,0 +1,70 @@
+12.Stored Procedure - 6
+mplement a procedure to calculate the electricity bill of all customers using cursor. Electricity board charges the following rates to domestic users to find the consumption of energy.
+
+First 100 units - 2 per unit(Rs)
+101 to 200 units - 2.5 per unit
+201 to 300 units - 3 per unit
+Above 300 units - 4 per unit
+
+
+
+
+Answers
+
+
+mysql> delimiter //
+mysql> create procedure Elect()
+    ->   begin
+    ->       declare done int default 0;
+    ->       declare eid, eunit, price INT;
+    ->       declare ename varchar(20);
+    ->       declare cur cursor for select * from electricity;
+    ->       declare continue handler for NOT FOUND set done = 1;
+    ->       
+    ->       OPEN cur;
+    ->       
+    ->       label: loop
+    ->           fetch cur into eid, eunit, ename;
+    ->           
+    ->           if eunit < 100 then
+    ->               set price = eunit * 2;
+    ->          elseif eunit < 200 then 
+    ->               set price = 2.5 * eunit;
+    ->           elseif eunit < 300 then
+    ->                  set price = 3 * eunit;
+    ->              else 
+    ->                  set price = 4 * eunit;
+    ->              end if;
+    ->              if done = 1 then
+    ->               leave label;
+    ->           end if;
+    ->           
+    ->              select eid, ename, eunit, price;
+    ->              
+    ->              
+    ->       end loop;
+    ->       
+    ->       close cur;
+    ->   end//
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> delimiter ;
+mysql> call Elect();
++------+-------+-------+-------+
+| eid  | ename | eunit | price |
++------+-------+-------+-------+
+|  101 | anu   |    99 |   198 |
++------+-------+-------+-------+
+1 row in set (0.00 sec)
+
++------+-------+-------+-------+
+| eid  | ename | eunit | price |
++------+-------+-------+-------+
+|  102 | manu  |   150 |   375 |
++------+-------+-------+-------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+
