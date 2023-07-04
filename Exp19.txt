@@ -77,3 +77,45 @@ mysql> select C_area(10);
 
 
 
+
+
+mysql> delimiter //
+mysql> create procedure Area()
+    -> begin
+    -> select R_Area(10,2);
+    -> select S_Area(10);
+    -> select C_area(10);
+    -> end //
+Query OK, 0 rows affected (0.16 sec)
+
+mysql> delimiter ;
+mysql> call Area();
++--------------+
+| R_Area(10,2) |
++--------------+
+|           20 |
++--------------+
+1 row in set (0.00 sec)
+
++------------+
+| S_Area(10) |
++------------+
+|        100 |
++------------+
+1 row in set (0.00 sec)
+
++------------+
+| C_area(10) |
++------------+
+|        314 |
++------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+
+
+
+
+
