@@ -1,0 +1,79 @@
+
+Create a cursor to copy the contents from one table to another.
+15. Cursor-2
+
+
+
+use mca;
+
+
+create table student1(rollo int, name varchar(20));
+insert into student1 values(101,"Abin"),(102,"Anand");
+mysql> select * from student1;
++-------+-------+
+| rollo | name  |
++-------+-------+
+|   101 | Abin  |
+|   102 | Anand |
++-------+-------+
+2 rows in set (0.00 sec)
+
+
+create table student2(rollo int, name varchar(20));
+
+delimiter //
+create procedure copy()
+begin 
+ declare done int default 0;
+DECLARE roll int;
+DECLARE ename varchar(20);
+        
+DECLARE cursor_name CURSOR FOR SELECT * FROM student1 ;
+declare continue handler for NOT FOUND set done = 1;
+OPEN cursor_name ;
+
+FETCH  cursor_name INTO roll,ename;
+
+
+label : loop
+    INSERT INTO student2 
+    VALUES (roll,ename);
+    
+    FETCH cursor_name INTO roll,ename ;
+    if done = 1 then
+		leave label;
+		end if;
+end loop ;
+
+
+CLOSE cursor_name ;
+end //
+delimiter ;
+drop procedure copy;
+call copy();
+drop table student2;
+
+select * from student1;
+select * from student2;
+
+
+
+mysql> select * from student1;
++-------+-------+
+| rollo | name  |
++-------+-------+
+|   101 | Abin  |
+|   102 | Anand |
++-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from student2;
++-------+-------+
+| rollo | name  |
++-------+-------+
+|   101 | Abin  |
+|   102 | Anand |
++-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> 

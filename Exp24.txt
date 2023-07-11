@@ -1,0 +1,108 @@
+
+
+Write a stored procedure using a Cursor to calculate TOTMARK (Mark1+ Mark2 +Mark3), AVGMARK (TOTMARK/3), RES (PASS if M1 and M2 all marks are greater than or equal to 50 else FAIL). The program should
+update all the records based on the above conditions.
+
+
+
+
+
+
+
+
+use mca;
+
+create table student3(rollno int, name varchar(20),m1 int,m2 int,m3 int,total int,avg decimal(5,2),result varchar(20));
+insert into student3(rollno,name,m1,m2,m3) values(101,"Abin",60,50,40);
+insert into student3(rollno,name,m1,m2,m3) values(102,"Adarsh",70,80,80);
+insert into student3(rollno,name,m1,m2,m3) values(103,"AKhil",60,70,90);
+insert into student3(rollno,name,m1,m2,m3) values(104,"Anand",60,70,40);
+select * from student3;
+
+mysql> select * from student3;
++--------+--------+------+------+------+-------+------+--------+
+| rollno | name   | m1   | m2   | m3   | total | avg  | result |
++--------+--------+------+------+------+-------+------+--------+
+|    101 | Abin   |   60 |   50 |   40 |  NULL | NULL | NULL   |
+|    102 | Adarsh |   70 |   80 |   80 |  NULL | NULL | NULL   |
+|    103 | AKhil  |   60 |   70 |   90 |  NULL | NULL | NULL   |
+|    104 | Anand  |   60 |   70 |   40 |  NULL | NULL | NULL   |
++--------+--------+------+------+------+-------+------+--------+
+4 rows in set (0.00 sec)
+
+mysql> 
+
+
+drop table student3;
+
+
+delimiter //
+CREATE PROCEDURE CalculateMarks()
+BEGIN
+    DECLARE done INT DEFAULT 0;
+    DECLARE totalMark INT;
+    DECLARE avgMark DECIMAL(5,2);
+    DECLARE result VARCHAR(10);
+    DECLARE roll INT;
+    
+    
+    
+    
+   
+    DECLARE mark1 INT;
+    DECLARE mark2 INT;
+    DECLARE mark3 INT;
+    
+  
+    DECLARE cur CURSOR FOR SELECT rollno,m1,m2,m3 FROM student3; 
+        
+   
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    
+    OPEN cur;
+    
+    calc_loop: LOOP
+        
+        FETCH cur INTO roll,mark1, mark2, mark3;
+        
+        
+        IF done = 1 THEN
+            LEAVE calc_loop;
+        END IF;
+        
+        SET totalMark = mark1 + mark2 + mark3;
+        
+        SET avgMark = totalMark / 3;
+        
+        IF mark1 >= 50 AND mark2 >= 50 AND mark3 >= 50 THEN
+            SET result = 'PASS';
+        ELSE
+            SET result = 'FAIL';
+        END IF;
+        
+
+        update student3 set total=totalMark,avg=avgMark,result=result where rollno=roll;
+    END LOOP;
+    
+   
+    CLOSE cur;
+    
+  
+END//
+delimiter ;
+call CalculateMarks();
+drop procedure CalculateMarks;
+
+
+mysql> select * from student3;
++--------+--------+------+------+------+-------+-------+--------+
+| rollno | name   | m1   | m2   | m3   | total | avg   | result |
++--------+--------+------+------+------+-------+-------+--------+
+|    101 | Abin   |   60 |   50 |   40 |   150 | 50.00 | FAIL   |
+|    102 | Adarsh |   70 |   80 |   80 |   230 | 76.67 | PASS   |
+|    103 | AKhil  |   60 |   70 |   90 |   220 | 73.33 | PASS   |
+|    104 | Anand  |   60 |   70 |   40 |   170 | 56.67 | FAIL   |
++--------+--------+------+------+------+-------+-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> 
