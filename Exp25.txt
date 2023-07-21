@@ -1,0 +1,24 @@
+
+show dbs  // Show databases
+use mcanew  // Use a databases
+db. getCollectionNames()  // Show tables in database
+db.student.find()  // Show elements in a table 
+
+
+
+
+
+
+
+
+
+
+
+
+
+db.mark.aggregate([{$limit:2}])
+db.mark.aggregate([{$sort:{marks:1}}])
+db.mark.aggregate([{$sort:{marks:-1}},{$limit:2}])
+db.mark.aggregate({$group:{_id:"$name",average:{$avg:"$marks"}}},{$sort:{average:-1}},{$limit:2})
+db.marks.find({name:{$regex:"Steve"}})
+
